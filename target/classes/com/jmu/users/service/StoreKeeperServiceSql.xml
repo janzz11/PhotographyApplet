@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.users.dao.StoreKeeper">
+
+	<resultMap type="com.jmu.users.model.StoreKeeper" id="BaseResultMap">
+		<result property="stokId" column="Stok_id"/>
+		<result property="stokPwd" column="Stok_pwd"/>
+		<result property="stokName" column="Sto_name"/>
+	</resultMap>
+	<sql id="BaseTable">storekeeper</sql>
+	<sql id="BaseColumn">Stok_id, IFNULL(Stok_pwd, '') as Stok_pwd, IFNULL(Stok_name, '') as Stok_name</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="stokId != null and StokId != ''">
+	 			Stok_id = #{stokId}
+	 		</if>
+	 		<if test="stokPwd != null and stokPwd != ''">
+	 			and Stok_pwd = #{stokPwd}
+	 		</if>
+	 		<if test="stokName != null and stokName != ''">
+	 			and Stok_name = #{stokName}
+	 		</if>
+	     </where>    
+ 	</sql>
+    
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.production.dao.ProductionDao">
+
+	<resultMap type="com.jmu.production.model.Production" id="BaseResultMap">
+		<result property="proId" column="Pro_id"/>
+		<result property="proName" column="Pro_name"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="proSample" column="Pro_sample"/>
+		<result property="proUse" column="Pro_use"/>
+		<result property="proAttention" column="Pro_attention"/>
+	</resultMap>
+	<sql id="BaseTable">production</sql>
+	<sql id="BaseColumn">Pro_id, IFNULL(Pro_name, '') as Pro_name, IFNULL(Pro_price, '') as Pro_price, IFNULL(Pro_subscription, '') as Pro_subscription, IFNULL(Pro_sample, '') as Pro_sample, IFNULL(Pro_use, '') as Pro_use, IFNULL(Pro_attention, '') as Pro_attention</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="proId != null and proId != ''">
+	 			Pro_id = #{proId}
+	 		</if>
+	 		<if test="proName != null and proName != ''">
+	 			and Pro_name = #{proName}
+	 		</if>
+	 		<if test="proPrice != null and proPrice != ''">
+	 			and Pro_price = #{proPrice}
+	 		</if>
+	 		<if test="proSubscription != null and proSubscription != ''">
+	 			and Pro_subscription = #{proSubscription}
+	 		</if>
+	 		<if test="proSample != null and proSample != ''">
+	 			and Pro_sample = #{proSample}
+	 		</if>
+	 		<if test="proUse != null and proUse != ''">
+	 			and Pro_use = #{proUse}
+	 		</if>
+	 		<if test="proAttention != null and proAttention != ''">
+	 			and Pro_attention = #{proAttention}
+	 		</if>
+	     </where>    
+ 	</sql>
+    <select id="getProInfo" resultMap="BaseResultMap">
+    	select 
+    	<include refid="BaseColumn"/>
+    	from
+    	<include refid="BaseTable"/>
+    	<include refid="BaseWhere"/>
+    </select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.orders.dao.ScheduleDao">
+
+	<resultMap type="com.jmu.orders.model.Schedule" id="BaseResultMap">
+		<result property="schId" column="Sch_id"/>
+		<result property="schDate" column="Sch_date"/>
+		<result property="schTime" column="Sch_time"/>
+		<result property="proStoId" column="Pro_sto_id"/>
+		<result property="schFlag" column="Sch_flag"/>
+	</resultMap>
+	<sql id="BaseTable">`schedule`</sql>
+	<sql id="BaseColumn">Sch_id, IFNULL(Sch_date, '') as Sch_date, IFNULL(Sch_time, '') as Sch_time, IFNULL(Pro_sto_id, '') as Pro_sto_id, IFNULL(Sch_flag, '') as Sch_flag</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="schId != null and schId != ''">
+	 			Sch_id = #{schId}
+	 		</if>
+	 		<if test="schDate != null and schDate != ''">
+	 			and Sch_date = #{schDate}
+	 		</if>
+	 		<if test="schTime != null and schTime != ''">
+	 			and Sch_time = #{schTime}
+	 		</if>
+	 		<if test="proStoId != null and proStoId != ''">
+	 			and Pro_sto_id = #{proStoId}
+	 		</if>
+	 		<if test="schFlag != null and schFlag != ''">
+	 			and Sch_flag = #{schFlag}
+	 		</if>
+	     </where>    
+ 	</sql>
+    <select id="getScheDate" resultMap="BaseResultMap">
+    	select 
+    	Sch_id, IFNULL(Sch_date, '') as Sch_date, IFNULL(Sch_time, '') as Sch_time, 
+    	IFNULL(Pro_sto_id, '') as Pro_sto_id, IFNULL(sum(Sch_flag), '') as Sch_flag
+    	from
+    	<include refid="BaseTable"/>
+    	where Pro_sto_id = #{proStoId} and DATEDIFF(Sch_date, CURRENT_DATE) >= 0 
+    	GROUP BY Sch_date
+    	order by Sch_date
+    </select>
+    <select id="getScheInfo" resultMap="BaseResultMap">
+    	select 
+    	<include refid="BaseColumn"/>
+    	from
+    	<include refid="BaseTable"/>
+    	<include refid="BaseWhere"/>
+    	order by Sch_date,Sch_time asc
+    </select>
+    <update id="setFlag" parameterType="com.jmu.orders.model.Schedule">
+    	update <include refid="BaseTable"/>
+    	set Sch_flag = #{schFlag}
+    	where Sch_id = #{schId}
+    </update>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为OrderDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.orders.dao.OrderDao">
+   <resultMap type="com.jmu.orders.model.Order" id="BaseResultMap">
+		<result property="ordId" column="Ord_id"/>
+		<result property="ordName" column="Ord_na12me"/>
+		<result property="ordSex" column="Ord_sex"/>
+		<result property="ordPhone" column="Ord_phone"/>
+		<result property="ordState" column="Ord_state"/>
+		<result property="ordRemarks"  column="Ord_remarks"/>
+		<result property="ordTime" column="Ord_time"/>
+		<result property="schId" column="Sch_id"/>
+		<result property="userWechat" column="User_wechat"/>
+		
+   </resultMap>
+   	<resultMap type="map" id="SchProStoResultMap">
+   	    <result property="ordId" column="Ord_id"/>
+		<result property="ordName" column="Ord_name"/>
+		<result property="ordPhone" column="Ord_phone"/>
+		<result property="ordState" column="Ord_state"/>	
+		<result property="ordTime" column="Ord_time"/>
+		<result property="schId" column="Sch_id"/>
+		<result property="schDate" column="Sch_date"/>
+		<result property="schTime" column="Sch_time"/>
+		<result property="schFlag" column="Sch_flag"/>
+		<result property="proStoId" column="Pro_sto_id"/>		
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="proName" column="Pro_name"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSample" column="Pro_sample"/>	
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="userWechat" column="User_wechat"/>	
+		<result property="userId" column="User_id"/>	
+		
+	</resultMap>
+   <resultMap type="com.jmu.orders.model.Schedule" id="scheduleMap">
+		<result property="schId" column="Sch_id"/>
+		<result property="schDate" column="Sch_date"/>
+		<result property="schTime" column="Sch_time"/>
+		<result property="proStoId" column="Pro_sto_id"/>
+		<result property="schFlag" column="Sch_flag"/>
+	</resultMap>
+   <sql id="BaseTable">`order`</sql>
+	<sql id="BaseColumn">IFNULL(Ord_id, '') as Ord_id, IFNULL(Ord_name, '') as Ord_name, IFNULL(Ord_sex, '') as Ord_sex, 
+	IFNULL(Ord_phone, '') as Ord_phone, IFNULL(Ord_state, '') as Ord_state, IFNULL(Ord_remarks, '') as Ord_remarks, 
+	IFNULL(Ord_time, '') as Ord_time,IFNULL(Sch_id, '') as Sch_id,IFNULL(User_wechat, '') as User_wechat</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="ordId != null and ordId != ''">
+	 			Ord_id = #{ordId}
+	 		</if>
+	 		<if test="ordName != null and ordName != ''">
+	 			and Ord_name = #{ordName}
+	 		</if>
+	 		<if test="ordSex != null and ordSex != ''">
+	 			and Ord_sex = #{ordSex}
+	 		</if>
+	 		<if test="ordPhone != null and ordPhone != ''">
+	 			and Ord_Phone = #{ordPhone}
+	 		</if>
+	 		<if test="ordState != null and ordState != ''">
+	 			and Ord_state = #{ordState}
+	 		</if>
+	 		<if test="ordRemarks != null and ordRemarks != ''">
+	 			and Ord_remarks = #{ordRemarks}
+	 		</if>
+	 		<if test="ordTime != null and ordTime != ''">
+	 			and Ord_time = #{ordTime}
+	 		</if>
+	 		<if test="schId != null and schId != ''">
+	 			and Sch_id = #{schId}
+	 		</if>
+	 		<if test="userWechat != null and userWechat != ''">
+	 			and User_wechat = #{userWechat}
+	 		</if>
+	     </where>    
+ 	</sql>
+	<select id="getOrders" resultMap="SchProStoResultMap" parameterType="com.jmu.orders.model.Order">
+    	select IFNULL(ord.Ord_id, '') as Ord_id, IFNULL(ord.Ord_state, '') as Ord_state,IFNULL(pro.Pro_sample, '') as Pro_sample,IFNULL(ord.Ord_time, '') as Ord_time,IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,IFNULL(ord.User_wechat,'') as User_wechat, IFNULL(ord.Sch_id,'') as Sch_id
+    	from schedule sch ,production pro,store sto,`order` ord,pro_sto ps
+    	where ord.User_wechat=#{userWechat}
+			and ord.Sch_id =sch.Sch_id 
+			and sch.Pro_Sto_id= ps.Pro_Sto_id
+            and ps.Pro_id =pro.Pro_id 
+			and ps.Sto_id =sto.Sto_id
+    </select>
+     
+      <select id="getSchflag" resultMap="scheduleMap" parameterType="int">
+		  select Sch_id, IFNULL(Sch_date, '') as Sch_date, IFNULL(Sch_time, '') as Sch_time, IFNULL(Pro_sto_id, '') as Pro_sto_id, IFNULL(Sch_flag, '') as Sch_flag
+		  from schedule
+		  where Sch_id = #{schId}
+      </select>
+      
+     <insert id="addOrders" parameterType="com.jmu.orders.model.Order">
+ 		insert into
+ 		<include refid="BaseTable"/>
+ 		(Ord_name,Ord_sex,Ord_phone,Ord_state,Ord_remarks,Sch_id,User_wechat)
+ 		value(#{ordName},#{ordSex},#{ordPhone},#{ordState},#{ordRemarks},#{schId},#{userWechat})
+ 	</insert>
+ 	<select id="getScheduleList" resultMap="SchProStoResultMap" parameterType="int">
+ 	  select  IFNULL(sch.Sch_date, '')as Sch_date,IFNULL(sch.Sch_time, '') as Sch_time, IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,	IFNULL(pro.Pro_price, '') as Pro_price,IFNULL(pro.Pro_subscription, '') as Pro_subscription,IFNULL(pro.Pro_attention, '') as Pro_attention
+    	from schedule sch ,production pro,store sto,pro_sto ps
+    	where sch.Sch_id=#{schId} and  sch.Pro_Sto_id= ps.Pro_Sto_id
+            and ps.Pro_id =pro.Pro_id and ps.Sto_id =sto.Sto_id
+ 	</select>
+    <select id="getMoreorderList" resultMap="SchProStoResultMap" parameterType="int" >
+   		select  IFNULL(ord.Ord_name, '')as Ord_name,IFNULL(ord.Ord_phone, '') as Ord_phone, 
+    	IFNULL(sch.Sch_date, '') as Sch_date, IFNULL(sch.Sch_time, '') as Sch_time,IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,
+    	IFNULL(pro.Pro_price, '') as Pro_price,IFNULL(pro.Pro_subscription, '') as Pro_subscription
+    	from schedule sch ,production pro,store sto,`order` ord,pro_sto ps
+    	where ord.Ord_id= #{ordId} and ord.Sch_id =sch.Sch_id and sch.Pro_Sto_id= ps.Pro_Sto_id
+            and ps.Pro_id =pro.Pro_id and ps.Sto_id =sto.Sto_id
+    </select>
+    <update id="setState" parameterType="com.jmu.orders.model.Order">
+    	update <include refid="BaseTable"/>
+    	set Ord_state = #{ordState}
+    	where Ord_id = #{ordId}
+    	
+    </update>
+  <update id="updateflag" parameterType="com.jmu.orders.model.Order">
+    	update schedule
+    	set Sch_flag = 1
+    	where Sch_id = #{schId}
+    	</update>
+    	
+
+</mapper>

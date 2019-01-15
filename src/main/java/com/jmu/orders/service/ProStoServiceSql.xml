@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.orders.dao.ProStoDao">
+
+	<resultMap type="com.jmu.orders.model.ProSto" id="BaseResultMap">
+		<result property="proStoId" column="Pro_sto_id"/>
+		<result property="proId" column="Pro_id"/>
+		<result property="stoId" column="Sto_id"/>
+	</resultMap>
+	<resultMap type="map" id="ProStoResultMap">
+		<result property="proStoId" column="Pro_sto_id"/>
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="stoAdd" column="Sto_add"/>
+		<result property="stoPhone" column="Sto_phone"/>
+		<result property="stokId" column="Stok_id"/>
+	</resultMap>
+	<sql id="BaseTable">pro_sto</sql>
+	<sql id="BaseColumn">proStoId, proId, stoId</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="proStoId != null and proStoId != ''">
+	 			Pro_sto_id = #{proStoId}
+	 		</if>
+	 		<if test="proId != null and proId != ''">
+	 			and Pro_id = #{proId}
+	 		</if>
+	 		<if test="stoId != null and stoId != ''">
+	 			and Sto_id = #{stoId}
+	 		</if>
+	     </where>    
+ 	</sql>
+    <select id="getStoreList" resultMap="ProStoResultMap" parameterType="int">
+    	select IFNULL(ps.Pro_sto_id, '') as Pro_sto_id, IFNULL(ps.Sto_id, '') as Sto_id, 
+    	IFNULL(s.Sto_name, '') as Sto_name, IFNULL(s.Sto_add, '') as Sto_add, IFNULL(s.Sto_phone, '') as Sto_phone,
+    	 IFNULL(s.Stok_id, '') as Stok_id
+    	from pro_sto ps, store s
+    	where 1=1 and ps.Sto_id = s.Sto_id
+    	and ps.Pro_id = #{pro_id}
+    </select>
+</mapper>

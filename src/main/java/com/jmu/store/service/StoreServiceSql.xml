@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.store.dao.StoreDao">
+
+	<resultMap type="com.jmu.store.model.Store" id="BaseResultMap">
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="stoAdd" column="Sto_add"/>
+		<result property="stoPhone" column="Sto_phone"/>
+		<result property="stokId" column="Stok_id"/>
+	</resultMap>
+	<sql id="BaseTable">store</sql>
+	<sql id="BaseColumn">Sto_id, IFNULL(Sto_name, '') as Sto_name, IFNULL(Sto_add, '') as Sto_add, IFNULL(Sto_phone, '') as Sto_phone, IFNULL(Stok_id, '') as Stok_id</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="stoId != null and StoId != ''">
+	 			Sto_id = #{stoId}
+	 		</if>
+	 		<if test="stoName != null and stoName != ''">
+	 			and Sto_name = #{stoName}
+	 		</if>
+	 		<if test="stoAdd != null and stoAdd != ''">
+	 			and Sto_add = #{stoAdd}
+	 		</if>
+	 		<if test="stoPhone != null and stoPhone != ''">
+	 			and Sto_phone = #{stoPhone}
+	 		</if>
+	 		<if test="stokId != null and stokId != ''">
+	 			and Stok_id = #{stokId}
+	 		</if>
+	     </where>    
+ 	</sql>
+    <select id="getStore" resultMap="BaseResultMap">
+    	select 
+    	<include refid="BaseColumn"/>
+    	from
+    	<include refid="BaseTable"/>
+    	<include refid="BaseWhere"/>
+    </select>
+</mapper>

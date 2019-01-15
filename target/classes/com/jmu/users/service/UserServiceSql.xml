@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.jmu.users.dao.UserDao">
+
+	<resultMap type="com.jmu.users.model.User" id="BaseResultMap">
+		<result property="userId" column="User_id"/>
+		<result property="userName" column="User_name"/>
+		<result property="userWechat" column="User_wechat"/>
+		<result property="userSex" column="User_sex"/>
+		<result property="userPhone" column="User_phone"/>
+	</resultMap>
+	<sql id="BaseTable">`user`</sql>
+	<sql id="BaseColumn">User_id, IFNULL(User_name, '') as User_name, User_wechat, IFNULL(User_sex, '') as User_sex, IFNULL(User_phone, '') as User_phone</sql>
+ 	<sql id="BaseWhere">
+	 	<where>
+	 		<if test="userId != null and userId != ''">
+	 			User_id = #{userId}
+	 		</if>
+	 		<if test="userName != null and userName != ''">
+	 			and User_name = #{userName}
+	 		</if>
+	 		<if test="userWechat != null and userWechat != ''">
+	 			and User_wechat = #{userWechat}
+	 		</if>
+	 		<if test="userSex != null and userSex != ''">
+	 			and User_sex = #{userSex}
+	 		</if>
+	 		<if test="userPhone != null and userPhone != ''">
+	 			and User_phone = #{userPhone}
+	 		</if>
+	     </where>    
+ 	</sql>
+ 	<select id="findUser" parameterType="com.jmu.users.model.User" resultMap="BaseResultMap">
+		select
+		<include refid="BaseColumn"/>
+		from
+		<include refid="BaseTable"/>
+		<include refid="BaseWhere"/>
+ 	</select>
+ 	<insert id="addUser" parameterType="com.jmu.users.model.User">
+ 		insert into
+ 		<include refid="BaseTable"/>
+ 		(User_wechat)
+ 		value(#{userWechat})
+ 	</insert>
+ 	<update id="updateUser" parameterType="com.jmu.users.model.User">
+ 		update 
+ 		<include refid="BaseTable"/>
+ 		set User_name = #{userName},
+ 			User_sex = #{userSex},
+ 			User_phone = #{userPhone}
+ 		where 1=1 and User_wechat = #{userWechat}
+ 	</update>
+</mapper>
