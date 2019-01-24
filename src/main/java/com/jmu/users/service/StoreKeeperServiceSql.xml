@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
-<mapper namespace="com.jmu.users.dao.StoreKeeper">
+<mapper namespace="com.jmu.users.dao.StoreKeeperDao">
 
 	<resultMap type="com.jmu.users.model.StoreKeeper" id="BaseResultMap">
 		<result property="stokId" column="Stok_id"/>
@@ -13,7 +13,7 @@
 	<sql id="BaseColumn">Stok_id, IFNULL(Stok_pwd, '') as Stok_pwd, IFNULL(Stok_name, '') as Stok_name</sql>
  	<sql id="BaseWhere">
 	 	<where>
-	 		<if test="stokId != null and StokId != ''">
+	 		<if test="stokId != null and stokId != ''">
 	 			Stok_id = #{stokId}
 	 		</if>
 	 		<if test="stokPwd != null and stokPwd != ''">
@@ -24,5 +24,16 @@
 	 		</if>
 	     </where>    
  	</sql>
-    
+    <select id="getStoreKeeper" resultMap="BaseResultMap">
+    	select <include refid="BaseColumn"/>
+		from
+		<include refid="BaseTable"/>
+		<include refid="BaseWhere"/>
+    </select>
+    <insert id="register" parameterType="com.jmu.users.model.StoreKeeper">
+    	insert into 
+    	<include refid="BaseTable" />
+    	(Stok_pwd, Stok_name)
+    	value(#{stokPwd}, #{stokName})
+    </insert>
 </mapper>
