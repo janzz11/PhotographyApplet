@@ -18,7 +18,7 @@ import com.jmu.users.service.StoreKeeperService;
 */
 @RestController
 @CrossOrigin//跨域注解
-@RequestMapping("/storekeeper")
+@RequestMapping("/manage/storekeeper")
 public class StoreKeeperAction {
 	
 	@Autowired 
