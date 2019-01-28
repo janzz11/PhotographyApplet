@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.jmu.common.Info;
+import com.jmu.store.model.Store;
 import com.jmu.store.service.StoreService;
 
 /** 
@@ -29,8 +30,26 @@ public class StoreAction {
 	
 	//后台管理
 	@RequestMapping(value = "/manage/store", params ="method=getStore", produces="application/json;charset=UTF-8")
-	public String getStoreInfos(){
-		Info info = new Info();
+	public String getStoreManageInfo(String stokId){
+		Info info = storeService.getStoreManageInfo(stokId);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/store", params = "method=delStore", produces = "application/json;charset=UTF-8")
+	public String delStore(Store store){
+		Info info = storeService.delete(store);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/store", params = "method=addStore", produces = "application/json;charset=UTF-8")
+	public String add(Store store){
+		Info info = storeService.add(store);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/store", params = "method=editStore", produces = "application/json;charset=UTF-8")
+	public String edit(Store store){
+		Info info = storeService.editStore(store);
 		return JSON.toJSONString(info);
 	}
 }

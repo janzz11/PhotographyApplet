@@ -1,6 +1,7 @@
 package com.jmu.store.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jmu.store.model.Store;
 
@@ -11,4 +12,8 @@ import com.jmu.store.model.Store;
 */
 public interface StoreDao {
 	public List<Store> getStore();
+	public List<Map> getStoreManage(String stokId);
+	public Boolean delete(Store store);
+	public Boolean add(Store store);
+	public Boolean edit(Store store);
 }

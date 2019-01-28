@@ -32,6 +32,9 @@ public class StoreKeeperService {
 			infos.setOk(false);
 			infos.setMsg("用户不存在或密码错误！");
 		}
+		else{
+			infos.setDetail("storeKeeper", stok.getStokId());
+		}
 		return infos;
 	}
 	

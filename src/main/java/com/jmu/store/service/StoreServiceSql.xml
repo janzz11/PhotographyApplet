@@ -11,6 +11,14 @@
 		<result property="stoPhone" column="Sto_phone"/>
 		<result property="stokId" column="Stok_id"/>
 	</resultMap>
+	<resultMap type="map" id="ManageStoreMap">
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="stoAdd" column="Sto_add"/>
+		<result property="stoPhone" column="Sto_phone"/>
+		<result property="stokId" column="Stok_id"/>
+		<result property="stokName" column="Stok_name"/>
+	</resultMap>
 	<sql id="BaseTable">store</sql>
 	<sql id="BaseColumn">Sto_id, IFNULL(Sto_name, '') as Sto_name, IFNULL(Sto_add, '') as Sto_add, IFNULL(Sto_phone, '') as Sto_phone, IFNULL(Stok_id, '') as Stok_id</sql>
  	<sql id="BaseWhere">
@@ -39,4 +47,33 @@
     	<include refid="BaseTable"/>
     	<include refid="BaseWhere"/>
     </select>
+    <select id="getStoreManage" resultMap="ManageStoreMap" parameterType="String">
+    	select 
+    	Sto_id, IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(sto.Sto_add, '') as Sto_add, IFNULL(sto.Sto_phone, '') as Sto_phone, IFNULL(sto.Stok_id, '') as Stok_id,
+    	IFNULL(stok.Stok_name, '') as Stok_name
+    	from store sto, storekeeper stok
+    	where
+    	sto.Stok_id = stok.stok_id
+    	and stok.Stok_id = #{stokId}
+    </select>
+    <delete id="delete" parameterType="com.jmu.store.model.Store">
+    	delete 
+    	from
+    	<include refid="BaseTable"/>
+    	where Sto_id = #{stoId}
+    </delete>
+    <insert id="add">
+    	insert into 
+    	<include refid="BaseTable" />
+    	(Sto_name, Sto_add, Sto_phone, Stok_id)
+    	value(#{stoName}, #{stoAdd}, #{stoPhone}, #{stokId})
+    </insert>
+    <update id="edit">
+    	update
+    	<include refid="BaseTable" />
+    	set Sto_name = #{stoName},
+    		Sto_add = #{stoAdd}, 
+    		Sto_Phone = #{stoPhone}
+    	where 1=1 and Sto_id = #{stoId}
+    </update>
 </mapper>

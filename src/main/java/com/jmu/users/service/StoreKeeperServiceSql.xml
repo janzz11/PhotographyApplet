@@ -10,7 +10,7 @@
 		<result property="stokName" column="Sto_name"/>
 	</resultMap>
 	<sql id="BaseTable">storekeeper</sql>
-	<sql id="BaseColumn">Stok_id, IFNULL(Stok_pwd, '') as Stok_pwd, IFNULL(Stok_name, '') as Stok_name</sql>
+	<sql id="BaseColumn">Stok_id, IFNULL(Stok_name, '') as Stok_name</sql>
  	<sql id="BaseWhere">
 	 	<where>
 	 		<if test="stokId != null and stokId != ''">
