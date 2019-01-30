@@ -40,5 +40,48 @@ public class ScheduleService {
 		info.setDetail("scheduleList", schInfo);
 		return info;
 	}
-
+	
+	public Info delSch(Schedule schedule){
+		Info info = new Info();
+		Boolean isSch = scheduleDao.delete(schedule);
+		if(!isSch){
+			info.setOk(false);
+			info.setMsg("删除失败，请重新操作！");
+		}
+		return info;
+	}
+	
+	public Info addSch(Schedule schedule){
+		Info info = new Info();
+		if(schedule.getSchDate() == null || schedule.getSchDate().equals("")){
+			info.setMsg("date不能为空！");
+			info.setOk(false);
+			return info;
+		}
+		if(schedule.getSchTime() == null || schedule.getSchTime().equals("")){
+			info.setMsg("time不能为空！");
+			info.setOk(false);
+			return info;
+		}
+		if(Integer.valueOf(schedule.getProStoId()) == null || Integer.valueOf(schedule.getProStoId()) == 0){
+			info.setMsg("产品门店id不能为空！");
+			info.setOk(false);
+			return info;
+		}
+		List<Schedule> sch = scheduleDao.getScheInfo(schedule);
+		if(sch != null && sch.size() != 0){
+			info.setMsg("已经存在同一时间的档期了，请修改后再试！");
+			info.setOk(false);
+			return info;
+		}
+		else{
+			schedule.setSchFlag(0);
+			Boolean isIst = scheduleDao.insert(schedule);
+			if(!isIst){
+				info.setMsg("添加失败，请重新操作！");
+				info.setOk(false);
+			}
+			return info;
+		}
+	}
 }

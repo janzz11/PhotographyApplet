@@ -13,6 +13,23 @@
 		<result property="proUse" column="Pro_use"/>
 		<result property="proAttention" column="Pro_attention"/>
 	</resultMap>
+	<resultMap type="map" id="proStoMap">
+		<result property="proId" column="Pro_id"/>
+		<result property="proName" column="Pro_name"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="proSample" column="Pro_sample"/>
+		<result property="proUse" column="Pro_use"/>
+		<result property="proAttention" column="Pro_attention"/>
+		
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="stoAdd" column="Sto_add"/>
+		<result property="stoPhone" column="Sto_phone"/>
+		<result property="stokId" column="Stok_id"/>
+		
+		<result property="proStoId" column="Pro_Sto_id"/>
+	</resultMap>
 	<sql id="BaseTable">production</sql>
 	<sql id="BaseColumn">Pro_id, IFNULL(Pro_name, '') as Pro_name, IFNULL(Pro_price, '') as Pro_price, IFNULL(Pro_subscription, '') as Pro_subscription, IFNULL(Pro_sample, '') as Pro_sample, IFNULL(Pro_use, '') as Pro_use, IFNULL(Pro_attention, '') as Pro_attention</sql>
  	<sql id="BaseWhere">
@@ -47,4 +64,38 @@
     	<include refid="BaseTable"/>
     	<include refid="BaseWhere"/>
     </select>
+    <select id="getProStoInfo" resultMap="proStoMap" parameterType="String">
+    	select
+    	p.Pro_id, IFNULL(p.Pro_name, '') as Pro_name, IFNULL(p.Pro_price, '') as Pro_price, IFNULL(p.Pro_subscription, '') as Pro_subscription, IFNULL(p.Pro_sample, '') as Pro_sample, IFNULL(p.Pro_use, '') as Pro_use, IFNULL(p.Pro_attention, '') as Pro_attention,
+    	s.Sto_id, IFNULL(s.Sto_name, '') as Sto_name, IFNULL(s.Sto_add, '') as Sto_add, IFNULL(s.Sto_phone, '') as Sto_phone, IFNULL(s.Stok_id, '') as Stok_id,
+    	ps.Pro_Sto_id
+    	FROM `production` p
+		inner join `pro_sto` ps on p.Pro_id = ps.Pro_id
+		inner join `store` s on ps.Sto_id = s.Sto_id
+		inner join `storekeeper` sk on s.Stok_id = sk.Stok_id
+		where 
+		sk.Stok_id = #{stokId}
+    </select>
+    <insert id="addPro" useGeneratedKeys="true" keyProperty="proId" parameterType="com.jmu.production.model.Production" keyColumn="Pro_id">
+    	insert into 
+    	<include refid="BaseTable" />
+    	(Pro_name, Pro_price, Pro_subscription, Pro_sample, Pro_use, Pro_attention)
+    	values (#{proName}, #{proPrice}, #{proSubscription}, #{proSample}, #{proUse}, #{proAttention})
+    </insert>
+    <update id="editPro">
+    	update
+    	<include refid="BaseTable" />
+    	set	Pro_name = #{proName},
+    		Pro_price = #{proPrice},
+    		Pro_subscription = #{proSubscription},
+    		Pro_sample = #{proSample},
+    		Pro_use = #{proUse},
+    		Pro_attention = #{proAttention}
+    	where 1=1 and Pro_id = #{proId}
+    </update>
+    <delete id="delPro" parameterType="int">
+    	delete
+    	from <include refid="BaseTable" />
+    	where 1=1 and Pro_id = #{proId}
+    </delete>
 </mapper>

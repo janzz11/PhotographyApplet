@@ -41,4 +41,22 @@ public class ScheduleAction {
 		Info info = scheduleService.getScheInfo();
 		return JSON.toJSONString(info);
 	}
+	
+	@RequestMapping(value = "/manage/schedule", params = "method=schList", produces = "application/json;charset=UTF-8")
+	public String schList(Schedule schedule){
+		Info info = scheduleService.getScheTime(schedule);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/schedule", params = "method=delSch", produces = "application/json;charset=UTF-8")
+	public String delSch(Schedule schedule){
+		Info info = scheduleService.delSch(schedule);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/schedule", params = "method=addSch", produces = "application/json;charset=UTF-8")
+	public String addSch(Schedule schedule){
+		Info info = scheduleService.addSch(schedule);
+		return JSON.toJSONString(info);
+	}
 }

@@ -1,6 +1,7 @@
 package com.jmu.production.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jmu.production.model.Production;
 
@@ -12,4 +13,8 @@ import com.jmu.production.model.Production;
 public interface ProductionDao {
 	public List<Production> getProInfo();
 	public Production getProInfo(Production production);
+	public List<Map> getProStoInfo(String stokId); 
+	public Boolean addPro(Production production);
+	public Boolean editPro(Production production);
+	public Boolean delPro(int proId);
 }

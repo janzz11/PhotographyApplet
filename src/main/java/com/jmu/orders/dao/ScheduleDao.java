@@ -14,4 +14,7 @@ public interface ScheduleDao {
 	public List<Schedule> getScheInfo();
 	public List<Schedule> getScheInfo(Schedule schedule);
 	public Boolean setFlag(Schedule schedule);
+	public Boolean delSch(int proStoId);
+	public Boolean delete(Schedule schedule);
+	public Boolean insert(Schedule schedule);
 }

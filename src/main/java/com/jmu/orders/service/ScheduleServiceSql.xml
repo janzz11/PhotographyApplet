@@ -55,4 +55,20 @@
     	set Sch_flag = #{schFlag}
     	where Sch_id = #{schId}
     </update>
+    <delete id="delSch" parameterType="int">
+    	delete
+    	from <include refid="BaseTable" />
+    	where Pro_Sto_id = #{proStoId}
+    </delete>
+    <delete id="delete">
+    	delete
+    	from <include refid="BaseTable" />
+    	where Sch_id = #{schId}
+    </delete>
+    <insert id="insert">
+    	insert into
+    	<include refid="BaseTable" />
+    	(Sch_date, Sch_time, Pro_Sto_id, Sch_flag)
+    	values (#{schDate}, #{schTime}, #{proStoId}, #{schFlag})
+    </insert>
 </mapper>

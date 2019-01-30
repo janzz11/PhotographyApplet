@@ -3,6 +3,7 @@ package com.jmu.orders.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.jmu.orders.model.ProSto;
 import com.jmu.orders.model.Schedule;
 
 /** 
@@ -13,4 +14,7 @@ import com.jmu.orders.model.Schedule;
 public interface ProStoDao {
 	public List<Schedule> getScheDate(Schedule schedule);
 	public List<Map> getStoreList(int proId);
+	public Boolean addProSto(ProSto proSto);
+	public Boolean editProSto(ProSto proSto);
+	public Boolean delPs(int proStoId);
 }

@@ -40,4 +40,21 @@
     	where 1=1 and ps.Sto_id = s.Sto_id
     	and ps.Pro_id = #{pro_id}
     </select>
+    <insert id="addProSto">
+    	insert into 
+    	<include refid="BaseTable" />
+    	(Pro_id, Sto_id)
+    	values(#{proId}, #{stoId})
+    </insert>
+    <update id="editProSto">
+    	update
+    	<include refid="BaseTable" />
+    	set Sto_id = #{stoId}
+    	where 1=1 and Pro_Sto_id = #{proStoId}
+    </update>
+    <delete id="delPs" parameterType="int">
+    	delete
+    	from <include refid="BaseTable" />
+    	where 1=1 and Pro_Sto_id = #{proStoId}
+    </delete>
 </mapper>

@@ -37,6 +37,7 @@ public class StoreService {
 		if(stokId == null || "".equals(stokId)){
 			info.setOk(false);
 			info.setMsg("店家Id不为空！");
+			return info;
 		}
 		List<Map> store = storeDao.getStoreManage(stokId);
 		info.setDetail("store", store);
@@ -45,7 +46,6 @@ public class StoreService {
 	
 	public Info delete(Store store){
 		Info info = new Info();
-		System.out.println("fdsa"+store.getStoId());
 		Boolean del = storeDao.delete(store);
 		if(!del){
 			info.setMsg("删除失败，请重新操作！");
@@ -72,7 +72,7 @@ public class StoreService {
 			info.setMsg("门店电话不能为空！");
 			return info;
 		}
-		if(Integer.valueOf(store.getStokId()) == null || "".equals(Integer.valueOf(store.getStokId()))){
+		if(Integer.valueOf(store.getStokId()) == null || 0 == Integer.valueOf(store.getStokId())){
 			info.setOk(false);
 			info.setMsg("店家id不能为空！");
 			return info;
