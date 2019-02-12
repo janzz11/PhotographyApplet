@@ -84,4 +84,18 @@ public class ScheduleService {
 			return info;
 		}
 	}
+	
+	public Info editSch(Schedule schedule) {
+		Info info = new Info();
+		if(Integer.valueOf(schedule.getSchId()) == null || Integer.valueOf(schedule.getSchId()) == 0) {
+			info.setMsg("档期id不能为空！");
+			info.setOk(false);
+		}
+		Boolean edit = scheduleDao.setFlag(schedule);
+		if(!edit) {
+			info.setMsg("修改失败， 请重新操作！");
+			info.setOk(false);
+		}
+		return info;
+	}
 }
