@@ -25,7 +25,7 @@ public class OrderAction {
 	//获得订单信息
 	@RequestMapping(value = "/wechat/order", params = "method=createOrder", produces="application/json;charset=UTF-8")
 	public String createOrder(Order order){
-		Info info = orderService.tocreateOrder(order);
+		Info info = orderService.toCreateOrder(order);
 		return JSON.toJSONString(info);
 	}
 	
@@ -34,6 +34,7 @@ public class OrderAction {
 		Info info = orderService.getOrders(order);
 		return JSON.toJSONString(info);
 	}
+	
 	@RequestMapping(value = "/wechat/order", params = "method=schedulelistData", produces="application/json;charset=UTF-8")
 	public String schedulelistData(Order order){
 		Info info = orderService.getScheduleList(order);
@@ -45,7 +46,7 @@ public class OrderAction {
 		Info info = orderService.getMoreorderList(order);
 		return JSON.toJSONString(info);
 	}
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	@RequestMapping(value = "/wechat/order", params = "method=cancleOrder", produces="application/json;charset=UTF-8")
 	public String cancel(Order order){
@@ -54,5 +55,27 @@ public class OrderAction {
 	}
 	
 	//后台管理
+	@RequestMapping(value = "/manage/order", params = "method=ordList", produces = "application/json;charset=UTF-8")
+	public String listOrd(Order order) {
+		Info info = orderService.getOrders(order);
+		return JSON.toJSONString(info);
+	}
 	
+	@RequestMapping(value = "/manage/order", params = "method=editOrd", produces = "application/json;charset=UTF-8")
+	public String editOrd(Order order) {
+		Info info = orderService.editOrd(order);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/order", params = "method=delOrd", produces = "application/json;charset=UTF-8")
+	public String delOrd(Order order) {
+		Info info = orderService.delOrd(order);
+		return JSON.toJSONString(info);
+	}
+	
+	@RequestMapping(value = "/manage/order", params = "method=uploadImg", produces = "application/json;charset=UTF-8")
+	public String uploadImg(Order order) {
+		Info info = orderService.uploadImg(order);
+		return JSON.toJSONString(info);
+	}
 }

@@ -13,9 +13,79 @@ public class Order {
 	private  String       ordRemarks ;  //预约备注    
 	private  String       ordTime    ;  //订单创建时间
 	private  int          schId      ;  //档期表主键  
-	private  String       userWechat      ;  //用户表主键  
+	private  String       userWechat ;  //用户表主键  
+	private  String       tempProName;  //产品名称
+	private  String       tempStoName;  //门店名
+	private  String       tempSchDate;  //日期
+	private  String 	  tempSchTime;  //时间
+	private  int          stokId;       //id
+	private  String		  ordImg;		//图片地址
+	private  int 		  proPrice;     //产品价格
+	private  int 		  proSubscription;//定金
+	private  String       proSample;    //优秀样片
+	private  int 		  proStoId;		//id
+	public int getProStoId() {
+		return proStoId;
+	}
+	public void setProStoId(int proStoId) {
+		this.proStoId = proStoId;
+	}
+	public int getProPrice() {
+		return proPrice;
+	}
+	public void setProPrice(int proPrice) {
+		this.proPrice = proPrice;
+	}
+	public int getProSubscription() {
+		return proSubscription;
+	}
+	public void setProSubscription(int proSubscription) {
+		this.proSubscription = proSubscription;
+	}
+	public String getProSample() {
+		return proSample;
+	}
+	public void setProSample(String proSample) {
+		this.proSample = proSample;
+	}
+	public String getOrdImg() {
+		return ordImg;
+	}
+	public void setOrdImg(String ordImg) {
+		this.ordImg = ordImg;
+	}
 	public int getOrdId() {
 		return ordId;
+	}
+	public String getTempProName() {
+		return tempProName;
+	}
+	public void setTempProName(String tempProName) {
+		this.tempProName = tempProName;
+	}
+	public String getTempStoName() {
+		return tempStoName;
+	}
+	public void setTempStoName(String tempStoName) {
+		this.tempStoName = tempStoName;
+	}
+	public String getTempSchDate() {
+		return tempSchDate;
+	}
+	public void setTempSchDate(String tempSchDate) {
+		this.tempSchDate = tempSchDate;
+	}
+	public String getTempSchTime() {
+		return tempSchTime;
+	}
+	public void setTempSchTime(String tempSchTime) {
+		this.tempSchTime = tempSchTime;
+	}
+	public int getStokId() {
+		return stokId;
+	}
+	public void setStokId(int stokId) {
+		this.stokId = stokId;
 	}
 	public void setOrdId(int ordId) {
 		this.ordId = ordId;

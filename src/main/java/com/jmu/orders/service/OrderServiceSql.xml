@@ -5,7 +5,7 @@
 <mapper namespace="com.jmu.orders.dao.OrderDao">
    <resultMap type="com.jmu.orders.model.Order" id="BaseResultMap">
 		<result property="ordId" column="Ord_id"/>
-		<result property="ordName" column="Ord_na12me"/>
+		<result property="ordName" column="Ord_name"/>
 		<result property="ordSex" column="Ord_sex"/>
 		<result property="ordPhone" column="Ord_phone"/>
 		<result property="ordState" column="Ord_state"/>
@@ -13,28 +13,25 @@
 		<result property="ordTime" column="Ord_time"/>
 		<result property="schId" column="Sch_id"/>
 		<result property="userWechat" column="User_wechat"/>
-		
+		<result property="tempProName" column="Temp_pro_name"/>
+		<result property="tempStoName" column="Temp_sto_name"/>
+		<result property="tempSchDate" column="Temp_sch_date"/>
+		<result property="tempSchTime" column="Temp_sch_time"/>
+		<result property="stokId" column="Stok_id"/>
+		<result property="ordImg" column="Ord_img"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSample" column="Pro_sample"/>	
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="proStoId" column="Pro_sto_id"/>	
    </resultMap>
-   	<resultMap type="map" id="SchProStoResultMap">
-   	    <result property="ordId" column="Ord_id"/>
-		<result property="ordName" column="Ord_name"/>
-		<result property="ordPhone" column="Ord_phone"/>
-		<result property="ordState" column="Ord_state"/>	
-		<result property="ordTime" column="Ord_time"/>
-		<result property="schId" column="Sch_id"/>
+	<resultMap type="map" id="PreSchedule">
 		<result property="schDate" column="Sch_date"/>
 		<result property="schTime" column="Sch_time"/>
-		<result property="schFlag" column="Sch_flag"/>
-		<result property="proStoId" column="Pro_sto_id"/>		
-		<result property="stoId" column="Sto_id"/>
 		<result property="stoName" column="Sto_name"/>
 		<result property="proName" column="Pro_name"/>
 		<result property="proPrice" column="Pro_price"/>
 		<result property="proSample" column="Pro_sample"/>	
 		<result property="proSubscription" column="Pro_subscription"/>
-		<result property="userWechat" column="User_wechat"/>	
-		<result property="userId" column="User_id"/>	
-		
 	</resultMap>
    <resultMap type="com.jmu.orders.model.Schedule" id="scheduleMap">
 		<result property="schId" column="Sch_id"/>
@@ -43,10 +40,26 @@
 		<result property="proStoId" column="Pro_sto_id"/>
 		<result property="schFlag" column="Sch_flag"/>
 	</resultMap>
+	<resultMap type="map" id="TempMap">
+		<result property="tempProName" column="Temp_pro_name"/>
+		<result property="tempStoName" column="Temp_sto_name"/>
+		<result property="tempSchDate" column="Temp_sch_date"/>
+		<result property="tempSchTime" column="Temp_sch_time"/>
+		<result property="stokId" column="Stok_id"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSample" column="Pro_sample"/>	
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="proStoId" column="Pro_sto_id"/>
+	</resultMap>
    <sql id="BaseTable">`order`</sql>
 	<sql id="BaseColumn">IFNULL(Ord_id, '') as Ord_id, IFNULL(Ord_name, '') as Ord_name, IFNULL(Ord_sex, '') as Ord_sex, 
 	IFNULL(Ord_phone, '') as Ord_phone, IFNULL(Ord_state, '') as Ord_state, IFNULL(Ord_remarks, '') as Ord_remarks, 
-	IFNULL(Ord_time, '') as Ord_time,IFNULL(Sch_id, '') as Sch_id,IFNULL(User_wechat, '') as User_wechat</sql>
+	IFNULL(Ord_time, '') as Ord_time,IFNULL(Sch_id, '') as Sch_id,IFNULL(User_wechat, '') as User_wechat, 
+	IFNULL(Temp_pro_name, '') as Temp_pro_name, IFNULL(Temp_sto_name, '') as Temp_sto_name,
+	IFNULL(Temp_sch_date, '') as Temp_sch_date, IFNULL(Temp_sch_time, '') as Temp_sch_time,
+	IFNULL(Stok_id, '') as Stok_id, IFNULL(Ord_img, '') as Ord_img, IFNULL(Pro_price, '') as Pro_price,
+	IFNULL(Pro_sample, '') as Pro_sample, IFNULL(Pro_subscription, '') as Pro_subscription,
+	IFNULL(Pro_sto_id, '') as Pro_sto_id</sql>
  	<sql id="BaseWhere">
 	 	<where>
 	 		<if test="ordId != null and ordId != ''">
@@ -76,8 +89,135 @@
 	 		<if test="userWechat != null and userWechat != ''">
 	 			and User_wechat = #{userWechat}
 	 		</if>
+	 		<if test="tempProName != null and tempProName != ''">
+	 			and Temp_pro_name = #{tempProName}
+	 		</if>
+	 		<if test="tempStoName != null and tempStoName != ''">
+	 			and Temp_sto_name = #{tempStoName}
+	 		</if>
+	 		<if test="tempSchDate != null and tempSchDate != ''">
+	 			and Temp_sch_date = #{tempSchDate}
+	 		</if>
+	 		<if test="tempSchTime != null and tempSchTime != ''">
+	 			and Temp_sch_time = #{tempSchTime}
+	 		</if>
+	 		<if test="stokId != null and stokId != ''">
+	 			and Stok_id = #{stokId}
+	 		</if>
+	 		<if test="ordImg != null and ordImg != ''">
+	 			and Ord_img = #{ordImg}
+	 		</if>
+	 		<if test="proPrice != null and proPrice != ''">
+	 			and Pro_price = #{proPrice}
+	 		</if>
+	 		<if test="proSample != null and proSample != ''">
+	 			and Pro_sample = #{proSample}
+	 		</if>
+	 		<if test="proSubscription != null and proSubscription != ''">
+	 			and Pro_subscription = #{proSubscription}
+	 		</if>
+	 		<if test="proStoId !=  null and proStoId !=''">
+	 			and Pro_sto_id = #{proStoId}
+	 		</if>
 	     </where>    
  	</sql>
+ 	
+ 	<select id="tempList" resultMap="TempMap" parameterType="int">
+ 		select  IFNULL(p.Pro_name, '') as Temp_pro_name, IFNULL(s.Sto_name, '') as Temp_sto_name,
+				IFNULL(sch.Sch_date, '') as Temp_sch_date, IFNULL(sch.Sch_time, '') as Temp_sch_time,
+				IFNULL(stok.Stok_id, '') as Stok_id, IFNULL(p.Pro_price, '') as Pro_price,
+				IFNULL(p.Pro_sample, '') as Pro_sample, IFNULL(p.Pro_subscription, '') as Pro_subscription,
+				IFNULL(ps.Pro_sto_id, '') as Pro_sto_id
+		from schedule sch, production p, store s, storeKeeper stok, pro_sto ps
+		where sch.Sch_id = #{schId}
+			  and sch.Pro_Sto_id = ps.Pro_Sto_id and ps.Pro_id = p.Pro_id 
+			  and ps.Sto_id = s.Sto_id and s.Stok_id = stok.Stok_id
+ 	</select>
+ 	
+ 	<insert id="addOrders" parameterType="com.jmu.orders.model.Order">
+ 		insert into
+ 		<include refid="BaseTable"/>
+ 		(Ord_name, Ord_sex, Ord_phone, Ord_state, Ord_remarks, Sch_id, User_wechat, Temp_pro_name,
+ 		 Temp_sto_name, Temp_sch_date, Temp_sch_time, Stok_id, Pro_price, Pro_sample, Pro_subscription, Pro_sto_id)
+ 		value(#{ordName}, #{ordSex}, #{ordPhone}, #{ordState}, #{ordRemarks}, #{schId}, 
+ 		#{userWechat}, #{tempProName}, #{tempStoName}, #{tempSchDate}, #{tempSchTime}, #{stokId}, 
+ 		#{proPrice}, #{proSample}, #{proSubscription}, #{proStoId})
+ 	</insert>
+ 	<select id="getOrdInfo" resultMap="BaseResultMap">
+ 		select 
+    	<include refid="BaseColumn"/>
+    	from
+    	<include refid="BaseTable"/>
+    	<include refid="BaseWhere"/>
+ 	</select>
+ 	
+ 	<select id="getScheduleList" resultMap="PreSchedule" parameterType="int">
+ 	  select  IFNULL(sch.Sch_date, '')as Sch_date,IFNULL(sch.Sch_time, '') as Sch_time, IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,	IFNULL(pro.Pro_price, '') as Pro_price,IFNULL(pro.Pro_subscription, '') as Pro_subscription,IFNULL(pro.Pro_attention, '') as Pro_attention
+    	from schedule sch ,production pro,store sto,pro_sto ps
+    	where sch.Sch_id=#{schId} and  sch.Pro_Sto_id= ps.Pro_Sto_id
+            and ps.Pro_id =pro.Pro_id and ps.Sto_id =sto.Sto_id
+ 	</select>
+ 	<select id="getSchflag" resultMap="scheduleMap" parameterType="int">
+		  select Sch_id, IFNULL(Sch_date, '') as Sch_date, IFNULL(Sch_time, '') as Sch_time, IFNULL(Pro_sto_id, '') as Pro_sto_id, IFNULL(Sch_flag, '') as Sch_flag
+		  from schedule
+		  where Sch_id = #{schId}
+    </select>
+      
+    <update id="setState" parameterType="com.jmu.orders.model.Order">
+	 	update <include refid="BaseTable"/>
+	   	set Ord_state = #{ordState}
+	   	where Ord_id = #{ordId}
+    </update>
+    
+    <update id="edit" parameterType="com.jmu.orders.model.Order">
+    	update <include refid="BaseTable"/>
+    	set Ord_phone = #{ordPhone},
+    		Sch_id = #{schId},
+    		Temp_pro_name = #{tempProName},
+    		Temp_sto_name = #{tempStoName},
+    		Temp_sch_Date = #{tempSchDate},
+    		Temp_sch_time = #{tempSchTime},
+    		Stok_id = #{stokId},
+    		Pro_price = #{proPrice},
+    		Pro_subscription = #{proSubscription},
+    		Pro_sample = #{proSample},
+    		Pro_Sto_id = #{proStoId}
+    	where Ord_id = #{ordId}
+    </update>
+    
+    <delete id="delete">
+    	delete from <include refid="BaseTable" />
+    	where Ord_id =  #{ordId}
+    </delete>
+    
+   <update id="updateImg">
+   		update <include refid="BaseTable"/>
+   		set Ord_img = #{ordImg}
+   		where Ord_id = #{ordId}
+   </update>
+ 	<!-- 暂时不用了 -->
+ 	
+ 	<resultMap type="map" id="SchProStoResultMap">
+   	    <result property="ordId" column="Ord_id"/>
+		<result property="ordName" column="Ord_name"/>
+		<result property="ordPhone" column="Ord_phone"/>
+		<result property="ordState" column="Ord_state"/>	
+		<result property="ordTime" column="Ord_time"/>
+		<result property="schId" column="Sch_id"/>
+		<result property="schDate" column="Sch_date"/>
+		<result property="schTime" column="Sch_time"/>
+		<result property="schFlag" column="Sch_flag"/>
+		<result property="proStoId" column="Pro_sto_id"/>		
+		<result property="stoId" column="Sto_id"/>
+		<result property="stoName" column="Sto_name"/>
+		<result property="proName" column="Pro_name"/>
+		<result property="proPrice" column="Pro_price"/>
+		<result property="proSample" column="Pro_sample"/>	
+		<result property="proSubscription" column="Pro_subscription"/>
+		<result property="userWechat" column="User_wechat"/>	
+		<result property="userId" column="User_id"/>	
+	</resultMap>
+	
 	<select id="getOrders" resultMap="SchProStoResultMap" parameterType="com.jmu.orders.model.Order">
     	select IFNULL(ord.Ord_id, '') as Ord_id, IFNULL(ord.Ord_state, '') as Ord_state,IFNULL(pro.Pro_sample, '') as Pro_sample,IFNULL(ord.Ord_time, '') as Ord_time,IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,IFNULL(ord.User_wechat,'') as User_wechat, IFNULL(ord.Sch_id,'') as Sch_id
     	from schedule sch ,production pro,store sto,`order` ord,pro_sto ps
@@ -87,25 +227,7 @@
             and ps.Pro_id =pro.Pro_id 
 			and ps.Sto_id =sto.Sto_id
     </select>
-     
-      <select id="getSchflag" resultMap="scheduleMap" parameterType="int">
-		  select Sch_id, IFNULL(Sch_date, '') as Sch_date, IFNULL(Sch_time, '') as Sch_time, IFNULL(Pro_sto_id, '') as Pro_sto_id, IFNULL(Sch_flag, '') as Sch_flag
-		  from schedule
-		  where Sch_id = #{schId}
-      </select>
-      
-     <insert id="addOrders" parameterType="com.jmu.orders.model.Order">
- 		insert into
- 		<include refid="BaseTable"/>
- 		(Ord_name,Ord_sex,Ord_phone,Ord_state,Ord_remarks,Sch_id,User_wechat)
- 		value(#{ordName},#{ordSex},#{ordPhone},#{ordState},#{ordRemarks},#{schId},#{userWechat})
- 	</insert>
- 	<select id="getScheduleList" resultMap="SchProStoResultMap" parameterType="int">
- 	  select  IFNULL(sch.Sch_date, '')as Sch_date,IFNULL(sch.Sch_time, '') as Sch_time, IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,	IFNULL(pro.Pro_price, '') as Pro_price,IFNULL(pro.Pro_subscription, '') as Pro_subscription,IFNULL(pro.Pro_attention, '') as Pro_attention
-    	from schedule sch ,production pro,store sto,pro_sto ps
-    	where sch.Sch_id=#{schId} and  sch.Pro_Sto_id= ps.Pro_Sto_id
-            and ps.Pro_id =pro.Pro_id and ps.Sto_id =sto.Sto_id
- 	</select>
+ 
     <select id="getMoreorderList" resultMap="SchProStoResultMap" parameterType="int" >
    		select  IFNULL(ord.Ord_name, '')as Ord_name,IFNULL(ord.Ord_phone, '') as Ord_phone, 
     	IFNULL(sch.Sch_date, '') as Sch_date, IFNULL(sch.Sch_time, '') as Sch_time,IFNULL(sto.Sto_name, '') as Sto_name, IFNULL(pro.Pro_name, '') as Pro_name,
@@ -114,12 +236,7 @@
     	where ord.Ord_id= #{ordId} and ord.Sch_id =sch.Sch_id and sch.Pro_Sto_id= ps.Pro_Sto_id
             and ps.Pro_id =pro.Pro_id and ps.Sto_id =sto.Sto_id
     </select>
-    <update id="setState" parameterType="com.jmu.orders.model.Order">
-    	update <include refid="BaseTable"/>
-    	set Ord_state = #{ordState}
-    	where Ord_id = #{ordId}
-    	
-    </update>
+    
   <update id="updateflag" parameterType="com.jmu.orders.model.Order">
     	update schedule
     	set Sch_flag = 1
