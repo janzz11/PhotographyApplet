@@ -186,6 +186,9 @@ public class OrderService {
 			info.setMsg("上传图片失败，请重新操作！");
 			info.setOk(false);
 		}
+		order.setOrdState(1);
+		orderDao.setState(order);
+		
 		return info;
 	}
 }
