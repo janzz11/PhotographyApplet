@@ -24,8 +24,10 @@ import com.alibaba.fastjson.JSON;
 @CrossOrigin
 public class FileUpload {
 	//图片上传的路径
-	private static final String REALPATH = "E:/zdff/apache-tomcat-8.5.35/webapps/images/";
-	
+//	private static final String REALPATH = "E:/zdff/apache-tomcat-8.5.35/webapps/images/";
+//	private static final String REALPATH = "D:/install/apache-tomcat-8.5.35-windows-x64/apache-tomcat-8.5.35/webapps/images/";//zy
+	private static final String REALPATH = "E:/Java Mars/apache-tomcat-8.5.35/webapps/images/";//wy
+
 	@RequestMapping(value="manage/upload", params="method=img", produces = "application/json;charset=UTF-8")
 	public String upload(@RequestParam("ss") MultipartFile multipartFile, HttpServletRequest request){
 		Info info = new Info();

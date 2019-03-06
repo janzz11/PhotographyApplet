@@ -36,7 +36,11 @@ public class ProductionService {
 	
 	public Info getProDetail(Production production){
 		Info info = new Info();
-		Production proDetail = productionDao.getProInfo(production);
+		List<Production> pro = productionDao.getProInfo(production);
+		Production proDetail = null;
+		if(pro != null && pro.size() != 0) {
+			proDetail = pro.get(0);
+		}
 		List<Map> store = proStoDao.getStoreList(production.getProId());
 		info.setDetail("proDetail", proDetail);
 		info.setDetail("store", store);
@@ -55,13 +59,8 @@ public class ProductionService {
 		return info;
 	}
 	
-	public Info add(Production production, String stoId){
+	public Info add(Production production){
 		Info info = new Info();
-		if(stoId == null || "".equals(stoId)){
-			info.setOk(false);
-			info.setMsg("门店id不能为空");
-			return info;
-		}
 		if(production.getProName() == null || "".equals(production.getProName())){
 			info.setOk(false);
 			info.setMsg("产品名称不能为空！");
@@ -80,68 +79,81 @@ public class ProductionService {
 		if(Integer.valueOf(production.getProSubscription()) == null || 0 == Integer.valueOf(production.getProSubscription())){
 			info.setOk(false);
 			info.setMsg("定金不能为空！");
+			return info;
+		}
+		Production cur = new Production();
+		cur.setProName(production.getProName());
+		List<Production> curPro = productionDao.getProInfo(cur);
+		if(curPro != null && curPro.size()!=0) {
+			info.setMsg("产品名称已经存在，请换一个名称？");
+			info.setOk(false);
 			return info;
 		}
 		Boolean isAdd = productionDao.addPro(production);
-		if(isAdd){
-			ProSto ps = new ProSto();
-			ps.setProId(production.getProId());
-			ps.setStoId(Integer.valueOf(stoId));
-			Boolean isOk =  proStoDao.addProSto(ps);
-			if(!isOk){
-				info.setOk(false);
-				info.setMsg("产品门店表操作失败，请通过修改产品信息表进行操作！");
-			}
-			return info;
-		}
-		else{
+		if(!isAdd){
 			info.setOk(false);
-			info.setMsg("添加产品失败，请重新操作！");
-			return info;
-		}
-	}
-	
-	public Info edit(Production production, ProSto proSto){
-		Info info = new Info();
-		if(Integer.valueOf(proSto.getProStoId()) == null || 0 == Integer.valueOf(proSto.getProStoId())){
-			info.setOk(false);
-			info.setMsg("门店id不能为空");
-			return info;
-		}
-		if(production.getProName() == null || "".equals(production.getProName())){
-			info.setOk(false);
-			info.setMsg("产品名称不能为空！");
-			return info;
-		}
-		if(production.getProUse() == null || "".equals(production.getProUse())){
-			info.setOk(false);
-			info.setMsg("产品用途不能为空！");
-			return info;
-		}
-		if(Integer.valueOf(production.getProPrice()) == null || 0 == Integer.valueOf(production.getProPrice())){
-			info.setOk(false);
-			info.setMsg("价格不能为空！");
-			return info;
-		}
-		if(Integer.valueOf(production.getProSubscription()) == null || 0 == Integer.valueOf(production.getProSubscription())){
-			info.setOk(false);
-			info.setMsg("定金不能为空！");
-			return info;
-		}
-		Boolean isPro = productionDao.editPro(production);
-		Boolean isPs = proStoDao.editProSto(proSto);
-		if(!isPro || !isPs){
-			info.setOk(false);
-			info.setMsg("部分修改失败，请重新操作！");
+			info.setMsg("产品门店表操作失败，请通过修改产品信息表进行操作！");
 		}
 		return info;
 	}
 	
-	public Info delPro(ProSto proSto){
+	public Info edit(Production production){
 		Info info = new Info();
-		Boolean isSch = scheduleDao.delSch(proSto.getProStoId());
-		Boolean isPs = proStoDao.delPs(proSto.getProStoId());
-		Boolean isPro = productionDao.delPro(proSto.getProId());
+		if(Integer.valueOf(production.getProId()) == null || 0 == Integer.valueOf(production.getProId())){
+			info.setOk(false);
+			info.setMsg("产品Id不能为空！");
+			return info;
+		}
+		if(production.getProName() == null || "".equals(production.getProName())){
+			info.setOk(false);
+			info.setMsg("产品名称不能为空！");
+			return info;
+		}
+		if(production.getProUse() == null || "".equals(production.getProUse())){
+			info.setOk(false);
+			info.setMsg("产品用途不能为空！");
+			return info;
+		}
+		if(Integer.valueOf(production.getProPrice()) == null || 0 == Integer.valueOf(production.getProPrice())){
+			info.setOk(false);
+			info.setMsg("价格不能为空！");
+			return info;
+		}
+		if(Integer.valueOf(production.getProSubscription()) == null || 0 == Integer.valueOf(production.getProSubscription())){
+			info.setOk(false);
+			info.setMsg("定金不能为空！");
+			return info;
+		}
+		Production cur = new Production();
+		cur.setProName(production.getProName());
+		List<Production> curPro = productionDao.getProInfo(cur);
+		if(curPro != null && curPro.size()!=0 && !(curPro.get(0).getProId() == production.getProId())) {
+			info.setMsg("产品名称已经存在，请换一个名称？");
+			info.setOk(false);
+			return info;
+		}
+		Boolean isPro = productionDao.editPro(production);
+		if(!isPro){
+			info.setOk(false);
+			info.setMsg("修改失败，请重新操作！");
+		}
+		return info;
+	}
+	
+	public Info delPro(Production production){
+		Info info = new Info();
+//		Boolean isSch = scheduleDao.delSch(proSto.getProStoId());
+//		Boolean isPs = proStoDao.delPs(proSto.getProStoId());
+		ProSto proSto  = new ProSto();
+		proSto.setProId(production.getProId());
+		List<ProSto> proStoList = proStoDao.getProSto(proSto);
+		if(proStoList !=null && proStoList.size() != 0) {
+			for(int i = 0 ; i < proStoList.size(); i++) {
+				proStoDao.delPs(proStoList.get(i).getProStoId());
+				scheduleDao.delSch(proStoList.get(i).getProStoId());
+			}
+		}
+		Boolean isPro = productionDao.delPro(production.getProId());
 		if(!isPro){
 			info.setOk(false);
 			info.setMsg("产品表删除--失败！");

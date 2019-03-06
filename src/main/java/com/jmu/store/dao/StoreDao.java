@@ -12,6 +12,7 @@ import com.jmu.store.model.Store;
 */
 public interface StoreDao {
 	public List<Store> getStore();
+	public List<Store> getStore(Store store);
 	public List<Map> getStoreManage(String stokId);
 	public Boolean delete(Store store);
 	public Boolean add(Store store);

@@ -12,7 +12,7 @@ import com.jmu.production.model.Production;
 */
 public interface ProductionDao {
 	public List<Production> getProInfo();
-	public Production getProInfo(Production production);
+	public List<Production> getProInfo(Production production);
 	public List<Map> getProStoInfo(String stokId); 
 	public Boolean addPro(Production production);
 	public Boolean editPro(Production production);

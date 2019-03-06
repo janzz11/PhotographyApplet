@@ -17,8 +17,14 @@
 		<result property="stoPhone" column="Sto_phone"/>
 		<result property="stokId" column="Stok_id"/>
 	</resultMap>
+	<resultMap type="map" id="ProByStoResultMap">
+		<result property="proStoId" column="Pro_sto_id"/>
+		<result property="stoId" column="Sto_id"/>
+		<result property="proName" column="Pro_name"/>
+		<result property="proId" column="Pro_id"/>
+	</resultMap>
 	<sql id="BaseTable">pro_sto</sql>
-	<sql id="BaseColumn">proStoId, proId, stoId</sql>
+	<sql id="BaseColumn">Pro_sto_id, Pro_id, Sto_id</sql>
  	<sql id="BaseWhere">
 	 	<where>
 	 		<if test="proStoId != null and proStoId != ''">
@@ -32,13 +38,25 @@
 	 		</if>
 	     </where>    
  	</sql>
+ 	<select id="getProList" resultMap="ProByStoResultMap" parameterType="com.jmu.orders.model.ProSto">
+ 		select ps.Pro_Sto_id, ps.Sto_id, ps.Pro_id,p.Pro_name
+ 		from pro_sto ps, production p
+ 		where ps.Pro_id = p.Pro_id and ps.Sto_id = #{stoId}
+ 	</select>
+ 	<select id="getProSto" resultMap="BaseResultMap">
+    	select 
+    	<include refid="BaseColumn"/>
+    	from
+    	<include refid="BaseTable"/>
+    	<include refid="BaseWhere"/>
+    </select>
     <select id="getStoreList" resultMap="ProStoResultMap" parameterType="int">
     	select IFNULL(ps.Pro_sto_id, '') as Pro_sto_id, IFNULL(ps.Sto_id, '') as Sto_id, 
     	IFNULL(s.Sto_name, '') as Sto_name, IFNULL(s.Sto_add, '') as Sto_add, IFNULL(s.Sto_phone, '') as Sto_phone,
     	 IFNULL(s.Stok_id, '') as Stok_id
     	from pro_sto ps, store s
     	where 1=1 and ps.Sto_id = s.Sto_id
-    	and ps.Pro_id = #{pro_id}
+    	and ps.Pro_id = #{proId}
     </select>
     <insert id="addProSto">
     	insert into 

@@ -38,26 +38,26 @@ public class ProductAction {
 	
 	//后台管理
 	@RequestMapping(value = "/manage/product", params = "method=getProList", produces = "application/json;charset=UTF-8")
-	public String getProList(String stokId){
-		Info info = productionService.getProList(stokId);
+	public String getProList(){
+		Info info = productionService.getProInfo();
 		return JSON.toJSONString(info);
 	}
 	
 	@RequestMapping(value = "manage/product", params = "method=addPro", produces = "application/json;charset=UTF-8")
-	public String addPro(Production production, String stoId){
-		Info info = productionService.add(production, stoId);
+	public String addPro(Production production){
+		Info info = productionService.add(production);
 		return JSON.toJSONString(info);
 	}
 	
 	@RequestMapping(value = "manage/product", params = "method=editPro", produces = "application/json;charset=UTF-8")
-	public String editPro(Production production, ProSto proSto){
-		Info info = productionService.edit(production, proSto);
+	public String editPro(Production production){
+		Info info = productionService.edit(production);
 		return JSON.toJSONString(info);
 	}
 	
 	@RequestMapping(value = "manage/product", params = "method=delPro", produces = "application/json;charset=UTF-8")
-	public String delPro(ProSto proSto){
-		Info info = productionService.delPro(proSto);
+	public String delPro(Production production){
+		Info info = productionService.delPro(production);
 		return JSON.toJSONString(info);
 	}
 }

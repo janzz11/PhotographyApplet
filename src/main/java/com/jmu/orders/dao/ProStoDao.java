@@ -12,9 +12,10 @@ import com.jmu.orders.model.Schedule;
 * 
 */
 public interface ProStoDao {
-	public List<Schedule> getScheDate(Schedule schedule);
 	public List<Map> getStoreList(int proId);
+	public List<Map> getProList(ProSto proSto);
 	public Boolean addProSto(ProSto proSto);
 	public Boolean editProSto(ProSto proSto);
 	public Boolean delPs(int proStoId);
+	public List<ProSto> getProSto(ProSto proSto);
 }

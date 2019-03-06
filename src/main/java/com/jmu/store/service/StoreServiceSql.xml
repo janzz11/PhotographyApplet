@@ -23,7 +23,7 @@
 	<sql id="BaseColumn">Sto_id, IFNULL(Sto_name, '') as Sto_name, IFNULL(Sto_add, '') as Sto_add, IFNULL(Sto_phone, '') as Sto_phone, IFNULL(Stok_id, '') as Stok_id</sql>
  	<sql id="BaseWhere">
 	 	<where>
-	 		<if test="stoId != null and StoId != ''">
+	 		<if test="stoId != null and stoId != ''">
 	 			Sto_id = #{stoId}
 	 		</if>
 	 		<if test="stoName != null and stoName != ''">
